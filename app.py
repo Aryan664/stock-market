@@ -14,7 +14,7 @@ import sqlite3
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
-PORTFOLIO_FILE = "portfolio.json"
+init_db()
 
 def get_db():
     return sqlite3.connect("database.db")
