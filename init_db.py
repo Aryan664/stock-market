@@ -1,26 +1,40 @@
 import sqlite3
+import os
 
-conn = sqlite3.connect("database.db")
-c = conn.cursor()
+DB_PATH = os.environ.get("DATABASE_PATH", "/tmp/trading.db")
 
-c.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    username TEXT PRIMARY KEY,
-    password TEXT NOT NULL,
-    cash REAL NOT NULL
-)
-""")
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
 
-c.execute("""
-CREATE TABLE IF NOT EXISTS portfolio (
-    username TEXT,
-    symbol TEXT,
-    shares INTEGER,
-    PRIMARY KEY (username, symbol)
-)
-""")
+    # USERS TABLE
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    """)
 
-conn.commit()
-conn.close()
+    # PORTFOLIO TABLE
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS portfolios (
+            user_id INTEGER PRIMARY KEY,
+            cash REAL NOT NULL DEFAULT 100000,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
 
-print("Database initialized.")
+    # HOLDINGS TABLE
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS holdings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            symbol TEXT NOT NULL,
+            shares INTEGER NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
+
+    conn.commit()
+    conn.close()
