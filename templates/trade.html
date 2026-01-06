@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trade</title>
+</head>
+<body>
+
+<h1>📈 Paper Trading</h1>
+<a href="/market">📊 Market</a> |
+<a href="/trade">💼 Trade</a>
+<hr>
+
+
+<p>Market Status:
+<b style="color:{{ 'green' if market_open else 'red' }}">
+{{ 'OPEN' if market_open else 'CLOSED' }}
+</b>
+</p>
+
+<h3>Cash: ${{ cash }}</h3>
+<h3>Total Value: ${{ total_value }}</h3>
+
+{% if error %}
+<p style="color:red;"><strong>{{ error }}</strong></p>
+{% endif %}
+
+<form method="post">
+    <input name="symbol" placeholder="Symbol (AAPL)" required>
+    <input name="shares" type="number" min="1" required>
+
+    <select name="action">
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+    </select>
+
+    <button type="submit">Submit</button>
+</form>
+
+<hr>
+
+<h2>📂 Portfolio</h2>
+
+<table border="1" cellpadding="5">
+<tr>
+    <th>Symbol</th>
+    <th>Shares</th>
+    <th>Price</th>
+    <th>Value</th>
+</tr>
+
+{% for stock in portfolio %}
+<tr>
+    <td>
+        <a href="/chart/{{ stock.symbol }}">
+            {{ stock.symbol }}
+        </a>
+    </td>
+    <td>{{ stock.shares }}</td>
+    <td>${{ stock.price }}</td>
+    <td>${{ stock.value }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
+

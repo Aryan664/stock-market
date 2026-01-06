@@ -1,0 +1,6 @@
+Flask
+yfinance
+pytz
+waitress
+werkzeug
+

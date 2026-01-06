@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #020617;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #1e293b;
+            text-align: left;
+        }
+
+        th {
+            background: #020617;
+        }
+
+        tr:hover {
+            background: #1e293b;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .nav {
+            margin-bottom: 15px;
+        }
+
+        .nav a {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="/market">Market</a>
+        <a href="/trade">Trade</a>
+    </div>
+
+    <h1>📈 Market Prices</h1>
+
+    {% if prices %}
+    <table>
+        <tr>
+            <th>Symbol</th>
+            <th>Price (USD)</th>
+            <th>Chart</th>
+        </tr>
+
+        {% for symbol, price in prices.items() %}
+        <tr>
+            <td>{{ symbol }}</td>
+            <td>${{ "%.2f"|format(price) }}</td>
+            <td>
+                <a href="/chart/{{ symbol }}">View Chart</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No market data available.</p>
+    {% endif %}
+
+</body>
+</html>
+

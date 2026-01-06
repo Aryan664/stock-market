@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ symbol }} Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>{{ symbol }} Price Chart</h1>
+
+<form>
+    <select name="period" onchange="this.form.submit()">
+        <option value="1mo" {{ 'selected' if period=='1mo' }}>1M</option>
+        <option value="3mo" {{ 'selected' if period=='3mo' }}>3M</option>
+        <option value="6mo" {{ 'selected' if period=='6mo' }}>6M</option>
+        <option value="1y" {{ 'selected' if period=='1y' }}>1Y</option>
+    </select>
+</form>
+
+<canvas id="chart"></canvas>
+
+<script>
+new Chart(document.getElementById("chart"), {
+    type: "line",
+    data: {
+        labels: {{ dates|tojson }},
+        datasets: [{
+            label: "{{ symbol }}",
+            data: {{ prices|tojson }},
+            borderWidth: 2
+        }]
+    }
+});
+</script>
+
+<h2>📰 News</h2>
+<ul>
+{% for item in news %}
+<li>
+    <a href="{{ item.link }}" target="_blank">{{ item.title }}</a><br>
+    <small>{{ item.publisher }}</small>
+</li>
+{% else %}
+<li>No news available.</li>
+{% endfor %}
+</ul>
+
+<a href="/trade">⬅ Back to Trade</a>
+
+</body>
+</html>
