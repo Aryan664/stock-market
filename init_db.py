@@ -7,7 +7,6 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    # USERS TABLE
     c.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +15,6 @@ def init_db():
         )
     """)
 
-    # PORTFOLIO TABLE
     c.execute("""
         CREATE TABLE IF NOT EXISTS portfolios (
             user_id INTEGER PRIMARY KEY,
@@ -25,7 +23,6 @@ def init_db():
         )
     """)
 
-    # HOLDINGS TABLE
     c.execute("""
         CREATE TABLE IF NOT EXISTS holdings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,3 +35,4 @@ def init_db():
 
     conn.commit()
     conn.close()
+
